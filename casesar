@@ -1,0 +1,51 @@
+#Casesar cipher
+
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char message[100], ch;
+    int i, key, type = 0;
+
+    printf("1 for Encrypt | 2 for Decrypt: ");
+    scanf("%d", &type);
+    getchar(); 
+
+    if (type != 1 && type != 2) {
+        printf("Invalid choice. Use 1 for Encrypt or 2 for Decrypt.\n");
+        return 1;
+    }
+
+    printf("Enter a message: ");
+    fgets(message, sizeof(message), stdin);
+    message[strcspn(message, "\n")] = '\0'; 
+
+    printf("Enter key: ");
+    scanf("%d", &key);
+    key = key % 26; 
+
+    for (i = 0; message[i] != '\0'; ++i) {
+        ch = message[i];
+
+        if (ch >= 'a' && ch <= 'z') {
+            if (type == 1)
+                ch = ((ch - 'a' + key) % 26) + 'a';
+            else
+                ch = ((ch - 'a' - key + 26) % 26) + 'a';
+        } else if (ch >= 'A' && ch <= 'Z') {
+            if (type == 1)
+                ch = ((ch - 'A' + key) % 26) + 'A';
+            else
+                ch = ((ch - 'A' - key + 26) % 26) + 'A';
+        }
+
+        message[i] = ch;
+    }
+
+    if (type == 1)
+        printf("Encrypted message: %s\n", message);
+    else
+        printf("Decrypted message: %s\n", message);
+
+    return 0;
+}
